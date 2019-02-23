@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import Header from "./subModules/header/Header";
 import Footer from "./subModules/Footer";
-import About from "./subModules/About";
-import Resume from "./subModules/Resume";
+import About from "./subModules/about/About";
+import Resume from "./subModules/resume/Resume";
 import Testimonials from "./subModules/Testimonials";
 import Portfolio from "./subModules/Portfolio";
 import $ from "jquery";

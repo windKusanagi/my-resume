@@ -66,7 +66,7 @@ class Header extends Component {
 						</li>
 						<li>
 							<a className="smoothscroll" href="#portfolio">
-								Works
+								Portfolio
 							</a>
 						</li>
 						<li>
@@ -106,7 +106,6 @@ class Header extends Component {
 }
 
 const mapStateToProps = state => {
-	// console.log(state);
 	return {
 		myInfo: state.firestore.ordered.personalInfo
 			? state.firestore.ordered.personalInfo[0]

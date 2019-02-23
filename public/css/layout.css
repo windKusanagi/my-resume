@@ -232,6 +232,7 @@ ul#nav li.current a {
 }
 #about .profile-pic {
 	position: relative;
+	object-fit: cover !important; 
 	width: 120px;
 	height: 120px;
 	border-radius: 100%;
@@ -292,9 +293,9 @@ ul#nav li.current a {
 	font: 25px/30px "opensans-bold", sans-serif;
 }
 
-#resume .header-col {
+/* #resume .header-col {
 	padding-top: 9px;
-}
+} */
 #resume .main-col {
 	padding-right: 10%;
 }
