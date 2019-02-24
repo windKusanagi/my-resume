@@ -1,5 +1,9 @@
 ## Xiang Zhang's Personal Page Implemented with React
 
+This project integrates redux, firebase, firestore, material-ui, bootstrap-react, etc. 
+
+Please find the live demo at https://my-react-resume.firebaseapp.com/.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
