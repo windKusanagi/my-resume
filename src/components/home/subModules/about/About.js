@@ -65,6 +65,21 @@ class About extends Component {
 										Download Resume
 									</a>
 								</p>
+								<p>
+									Find the source code of this React SPA at:{" "}
+									<a
+										onClick={event => {
+											event.preventDefault();
+											window.open(
+												"https://github.com/windKusanagi/my-resume",
+												"_blank"
+											);
+										}}
+										style={{cursor: "pointer"}}
+									>
+										https://github.com/windKusanagi/my-resume
+									</a>
+								</p>
 							</div>
 						</div>
 					</div>

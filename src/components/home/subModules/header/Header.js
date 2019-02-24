@@ -6,11 +6,9 @@ import { compose } from "redux";
 import "./Header.scss";
 
 class Header extends Component {
-	
 	onSoicalLinkClicked = url => {
 		window.open(url, "_blank");
 	};
-
 	render() {
 		const { myInfo, socialMedia } = this.props;
 		if (socialMedia) {
@@ -85,7 +83,7 @@ class Header extends Component {
 							</h1>
 							<h2 className="header__description">
 								{`${myInfo.occupation} `}
-								{`in ${myInfo.company}`}
+								{`at ${myInfo.company}`}
 							</h2>
 							<hr />
 							<ul className="social header__social ">

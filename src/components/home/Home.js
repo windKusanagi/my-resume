@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import Header from "./subModules/header/Header";
-import Footer from "./subModules/Footer";
+import Footer from "./subModules/footer/Footer";
 import About from "./subModules/about/About";
 import Resume from "./subModules/resume/Resume";
-import Testimonials from "./subModules/Testimonials";
-import Portfolio from "./subModules/Portfolio";
+import Testimonials from "./subModules/comments/Testimonials";
+import Portfolio from "./subModules/portfolio/Portfolio";
 import $ from "jquery";
 
 class Home extends Component {

@@ -3,53 +3,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
-import moment from "moment";
-import { months } from "../../../../static/staticNotation";
+import "./Resume.scss";
+import Works from "./Work";
+import Education from "./Education";
 
 class Resume extends Component {
 	render() {
-		const { works } = this.props;
-		
-		if (works) {
-			var work = works.map(work => {
-				return (
-					<div key={work.id}>
-						<h3>{work.companyName}</h3>
-						<a 
-							style={{cursor: "pointer"}}
-							onClick={(event) => {
-							event.preventDefault();
-							window.open(work.website, "_blank");
-						}}>{work.website}</a>
-						<p className="info">
-							{work.title}
-							<span>&bull;</span>{" "}
-							<em className="date">
-								{`${
-									months[moment(work.from.toDate()).month()]
-								} ${moment(work.from.toDate()).year()}`}{" "}
-								- {work.to? `${
-									months[moment(work.to.toDate()).month()]
-								} ${moment(work.to.toDate()).year()}` : "Present"}
-							</em>
-						</p>
-						<p>{work.summary}</p>
-					</div>
-				);
-			});
-
-			var education = this.props.data.education.map(education => {
-				return (
-					<div key={education.school}>
-						<h3>{education.school}</h3>
-						<p className="info">
-							{education.degree} <span>&bull;</span>
-							<em className="date">{education.graduated}</em>
-						</p>
-						<p>{education.description}</p>
-					</div>
-				);
-			});
+		const { works, educations } = this.props;
+		if (educations) {
 			var skills = this.props.data.skills.map(skills => {
 				var className = "bar-expand " + skills.name.toLowerCase();
 				return (
@@ -75,7 +36,12 @@ class Resume extends Component {
 						</h1>
 					</div>
 
-					<div className="nine columns main-col">{work}</div>
+					<div className="nine columns main-col">
+						{works &&
+							works.map((work, index) => {
+								return <Works key={work.id} work={work} />;
+							})}
+					</div>
 				</div>
 
 				<div className="row education">
@@ -87,7 +53,17 @@ class Resume extends Component {
 
 					<div className="nine columns main-col">
 						<div className="row item">
-							<div className="twelve columns">{education}</div>
+							<div className="twelve columns">
+								{educations &&
+									educations.map(education => {
+										return (
+											<Education
+												key={education.id}
+												education={education}
+											/>
+										);
+									})}
+							</div>
 						</div>
 					</div>
 				</div>
@@ -112,12 +88,14 @@ class Resume extends Component {
 
 const mapStateToProps = state => {
 	return {
-		works: state.firestore.ordered.workExperience
+		works: state.firestore.ordered.workExperience,
+		educations: state.firestore.ordered.education
 	};
 };
 export default compose(
 	connect(mapStateToProps),
 	firestoreConnect([
-		{ collection: "workExperience", orderBy: ["from", "desc"] }
+		{ collection: "workExperience", orderBy: ["from", "desc"] },
+		{ collection: "education", orderBy: ["from", "desc"] }
 	])
 )(Resume);
