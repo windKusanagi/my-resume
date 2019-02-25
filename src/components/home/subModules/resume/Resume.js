@@ -6,27 +6,33 @@ import { compose } from "redux";
 import "./Resume.scss";
 import Works from "./Work";
 import Education from "./Education";
+import Skill from "./Skill";
 
 class Resume extends Component {
-	render() {
-		const { works, educations } = this.props;
-		if (educations) {
-			var skills = this.props.data.skills.map(skills => {
-				var className = "bar-expand " + skills.name.toLowerCase();
-				return (
-					<li key={skills.name}>
-						<span
-							style={{ width: skills.level }}
-							className={className}
-						/>
-						<em>{skills.name}</em>
-					</li>
-				);
-			});
-		}
+	isBottom(el) {
+		return el.getBoundingClientRect().bottom <= window.innerHeight;
+	}
 
+	componentDidMount() {
+		document.addEventListener("scroll", this.trackScrolling);
+	}
+
+	componentWillUnmount() {
+		document.removeEventListener("scroll", this.trackScrolling);
+	}
+
+	trackScrolling = () => {
+		const wrappedElement = document.getElementById("skills-sect");
+		if (this.isBottom(wrappedElement)) {
+			// onsole.log("header bottom reached");
+			document.removeEventListener("scroll", this.trackScrolling);
+		}
+	};
+
+	render() {
+		const { works, educations, skills } = this.props;
 		return (
-			<section id="resume">
+			<section id="resume" onScroll={this.handleScroll}>
 				<div className="row work">
 					<div className="three columns header-col">
 						<h1>
@@ -68,16 +74,27 @@ class Resume extends Component {
 					</div>
 				</div>
 
-				<div className="row skill">
+				<div className="row skill" id="skills-sect">
 					<div className="three columns header-col">
 						<h1>
 							<span>Skills</span>
 						</h1>
 					</div>
-
 					<div className="nine columns main-col">
 						<div className="bars">
-							<ul className="skills">{skills}</ul>
+							<ul className="skills">
+								{skills &&
+									skills.map(
+										(skill, index) => {
+											return (
+												<Skill
+													skill={skill}
+													key={skill.id}
+												/>
+											);
+										}
+									)}
+							</ul>
 						</div>
 					</div>
 				</div>
@@ -87,15 +104,18 @@ class Resume extends Component {
 }
 
 const mapStateToProps = state => {
+	console.log(state);
 	return {
 		works: state.firestore.ordered.workExperience,
-		educations: state.firestore.ordered.education
+		educations: state.firestore.ordered.education,
+		skills: state.firestore.ordered.skills
 	};
 };
 export default compose(
 	connect(mapStateToProps),
 	firestoreConnect([
 		{ collection: "workExperience", orderBy: ["from", "desc"] },
-		{ collection: "education", orderBy: ["from", "desc"] }
+		{ collection: "education", orderBy: ["from", "desc"] },
+		{ collection: "skills", orderBy: ["level", "desc"] }
 	])
 )(Resume);
