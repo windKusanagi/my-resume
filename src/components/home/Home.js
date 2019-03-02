@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { firestoreConnect } from "react-redux-firebase";
+import { compose } from "redux";
 import Header from "./subModules/header/Header";
 import Footer from "./subModules/footer/Footer";
 import About from "./subModules/about/About";
@@ -6,6 +9,7 @@ import Resume from "./subModules/resume/Resume";
 import Testimonials from "./subModules/comments/Testimonials";
 import Portfolio from "./subModules/portfolio/Portfolio";
 import $ from "jquery";
+import LoadingScreen from "../widgets/loadingScreen/LoadingScreen";
 
 class Home extends Component {
 	constructor(props) {
@@ -38,18 +42,31 @@ class Home extends Component {
 	};
 
 	render() {
-		const { main, resume, portfolio, testimonials } = this.state.resumeData;
+		const { portfolio, testimonials } = this.state.resumeData;
+		const { myInfo } = this.props;
 		return (
 			<div>
-				<Header data={main} />
-				<About data={main} />
-				<Resume data={resume} />
+				{!myInfo&& (<LoadingScreen/>)}
+				<Header/>
+				<About/>
+				<Resume/>
 				<Portfolio data={portfolio} />
 				<Testimonials data={testimonials} />
-				<Footer data={main} />
+				<Footer/>
 			</div>
 		);
 	}
 }
 
-export default Home;
+const mapStateToProps = state => {
+	return {
+		myInfo: state.firestore.ordered.personalInfo
+	};
+};
+
+export default compose(
+	connect(mapStateToProps),
+	firestoreConnect([
+		{ collection: "personalInfo" }
+	])
+)(Home);

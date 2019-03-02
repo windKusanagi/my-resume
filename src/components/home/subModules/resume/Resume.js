@@ -104,7 +104,6 @@ class Resume extends Component {
 }
 
 const mapStateToProps = state => {
-	console.log(state);
 	return {
 		works: state.firestore.ordered.workExperience,
 		educations: state.firestore.ordered.education,

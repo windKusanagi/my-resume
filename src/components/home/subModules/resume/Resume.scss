@@ -3,6 +3,19 @@
 		margin-bottom: 10px;
 	}
 	&__accomplishment{
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		&__bullet{
+			width: 20px;
+			text-align: center;
+			padding-top : 4px; 
+		}
+		&__content{
+			width: calc(100% - 20px);
+		}
+	}
+	&__accomplishment-title{
 		margin: 0 0 10px 0;
 		font: 16px/24px "librebaskerville-italic", serif;
 		color: #6e7881;
@@ -17,6 +30,21 @@
 		font: 16px/24px "librebaskerville-italic", serif;
 		color: #6e7881;
 		margin: 5px 0 5px 0;
+	}
+
+	&__edu-highlight{
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		margin-bottom: 30px;
+		&__bullet{
+			width: 20px;
+			text-align: center;
+			padding-top : 4px; 
+		}
+		&__content{
+			width: calc(100% - 20px);
+		}
 	}
 
 	&__logo{

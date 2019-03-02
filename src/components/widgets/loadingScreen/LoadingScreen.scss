@@ -1,0 +1,20 @@
+.loadingScreen {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+    margin: auto;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+    background-color: white;
+	p {
+		text-align: center;
+		font-size: 20px;
+	}
+	&__child {
+		align-self: center;
+	}
+}
