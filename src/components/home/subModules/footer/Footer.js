@@ -1,8 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { firestoreConnect } from "react-redux-firebase";
-import { compose } from "redux";
 
 class Footer extends Component {
 	onSoicalLinkClicked = url => {
@@ -61,15 +58,4 @@ class Footer extends Component {
 	}
 }
 
-
-const mapStateToProps = state => {
-	return {
-		socialMedia: state.firestore.ordered.socialMediaLink
-	};
-};
-export default compose(
-	connect(mapStateToProps),
-	firestoreConnect([
-		{ collection: "socialMediaLink" }
-	])
-)(Footer);
+export default Footer;

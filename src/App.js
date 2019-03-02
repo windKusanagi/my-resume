@@ -11,8 +11,7 @@ class App extends Component {
 				<div className="App">
 					<Switch>
 						<Route exact path="/" component={Home} />
-						<Route path="/home" component={Home} />
-						<Redirect to="/dashboard" />
+						<Redirect to="/" />
 					</Switch>
 				</div>
 			</BrowserRouter>

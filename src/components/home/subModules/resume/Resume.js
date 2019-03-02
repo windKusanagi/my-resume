@@ -1,34 +1,29 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { firestoreConnect } from "react-redux-firebase";
-import { compose } from "redux";
 import "./Resume.scss";
 import Works from "./Work";
 import Education from "./Education";
 import Skill from "./Skill";
 
 class Resume extends Component {
-	isBottom(el) {
-		return el.getBoundingClientRect().bottom <= window.innerHeight;
-	}
+	// isBottom(el) {
+	// 	return el.getBoundingClientRect().bottom <= window.innerHeight;
+	// }
 
-	componentDidMount() {
-		document.addEventListener("scroll", this.trackScrolling);
-	}
+	// componentDidMount() {
+	// 	document.addEventListener("scroll", this.trackScrolling);
+	// }
 
-	componentWillUnmount() {
-		document.removeEventListener("scroll", this.trackScrolling);
-	}
+	// componentWillUnmount() {
+	// 	document.removeEventListener("scroll", this.trackScrolling);
+	// }
 
-	trackScrolling = () => {
-		const wrappedElement = document.getElementById("skills-sect");
-		if (this.isBottom(wrappedElement)) {
-			// onsole.log("header bottom reached");
-			document.removeEventListener("scroll", this.trackScrolling);
-		}
-	};
-
+	// trackScrolling = () => {
+	// 	const wrappedElement = document.getElementById("skills-sect");
+	// 	if (this.isBottom(wrappedElement)) {
+	// 		document.removeEventListener("scroll", this.trackScrolling);
+	// 	}
+	// };
 	render() {
 		const { works, educations, skills } = this.props;
 		return (
@@ -103,18 +98,4 @@ class Resume extends Component {
 	}
 }
 
-const mapStateToProps = state => {
-	return {
-		works: state.firestore.ordered.workExperience,
-		educations: state.firestore.ordered.education,
-		skills: state.firestore.ordered.skills
-	};
-};
-export default compose(
-	connect(mapStateToProps),
-	firestoreConnect([
-		{ collection: "workExperience", orderBy: ["from", "desc"] },
-		{ collection: "education", orderBy: ["from", "desc"] },
-		{ collection: "skills", orderBy: ["level", "desc"] }
-	])
-)(Resume);
+export default Resume;

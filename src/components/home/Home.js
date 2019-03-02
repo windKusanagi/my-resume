@@ -42,31 +42,69 @@ class Home extends Component {
 	};
 
 	render() {
-		const { portfolio, testimonials } = this.state.resumeData;
-		const { myInfo } = this.props;
+		const { portfolio } = this.state.resumeData;
+		const {
+			myInfo,
+			socialMedia,
+			works,
+			educations,
+			skills,
+			references,
+			portfolios
+		} = this.props;
+		let allReady = (
+				myInfo &&
+				socialMedia &&
+				works &&
+				educations &&
+				skills &&
+				references &&
+				portfolios
+			)
 		return (
 			<div>
-				{!myInfo&& (<LoadingScreen/>)}
-				<Header/>
-				<About/>
-				<Resume/>
-				<Portfolio data={portfolio} />
-				<Testimonials data={testimonials} />
-				<Footer/>
+				{!allReady && <LoadingScreen />}
+				<Header myInfo={myInfo} socialMedia={socialMedia} />
+				<About myInfo={myInfo} />
+				<Resume works={works} educations={educations} skills={skills} />
+				<Portfolio data={portfolio} portfolios={portfolios} />
+				<Testimonials references={references} />
+				<Footer socialMedia={socialMedia} />
 			</div>
 		);
+
 	}
 }
 
 const mapStateToProps = state => {
+	const references = state.firestore.ordered.reference;
+	const allPortfolios = state.firestore.ordered.portfolios;
 	return {
 		myInfo: state.firestore.ordered.personalInfo
+			? state.firestore.ordered.personalInfo[0]
+			: null,
+		socialMedia: state.firestore.ordered.socialMediaLink,
+		works: state.firestore.ordered.workExperience,
+		educations: state.firestore.ordered.education,
+		skills: state.firestore.ordered.skills,
+		references: references
+			? references.filter(el => el.comment !== "")
+			: null,
+		portfolios: allPortfolios
+			? allPortfolios.filter(el => el.isReady === true)
+			: null
 	};
 };
 
 export default compose(
 	connect(mapStateToProps),
 	firestoreConnect([
-		{ collection: "personalInfo" }
+		{ collection: "personalInfo" },
+		{ collection: "workExperience", orderBy: ["from", "desc"] },
+		{ collection: "education", orderBy: ["from", "desc"] },
+		{ collection: "skills", orderBy: ["level", "desc"] },
+		{ collection: "socialMediaLink" },
+		{ collection: "portfolios" },
+		{ collection: "reference" }
 	])
 )(Home);

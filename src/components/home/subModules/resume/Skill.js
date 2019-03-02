@@ -30,10 +30,8 @@ const Skill = props => {
 
 	return (
 		<li key={skill.name}>
-			{/* <span style={{ width: `${skill.level*100}%`, background: {color} }} className={className} /> */}
 			<span style={spanStyle} className={className}> {label} </span>
 			<em>{skill.name}</em>
-			
 		</li>
 	);
 };

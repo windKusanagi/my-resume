@@ -7,7 +7,7 @@ const LoadingScreen = () => {
 	return (
 		<div className="loadingScreen">
 			<p className="text-semibold">Loading ... </p>
-			<CircularProgress disableShrink className="loadingScreen__child" />
+			<CircularProgress className="loadingScreen__child" />
 		</div>
 	);
 };

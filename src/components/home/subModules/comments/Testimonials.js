@@ -1,7 +1,4 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { firestoreConnect } from "react-redux-firebase";
-import { compose } from "redux";
 
 class Testimonials extends Component {
 	render() {
@@ -39,15 +36,4 @@ class Testimonials extends Component {
 	}
 }
 
-const mapStateToProps = state => {
-	const references = state.firestore.ordered.reference;
-	return {
-		references: references
-			? references.filter(el => el.comment !== "")
-			: null
-	};
-};
-export default compose(
-	connect(mapStateToProps),
-	firestoreConnect([{ collection: "reference" }])
-)(Testimonials);
+export default Testimonials;

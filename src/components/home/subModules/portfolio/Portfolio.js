@@ -1,56 +1,35 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { openPortfolioModal } from "../../../../store/actions/portfolioActions";
+import Project from "./Project";
+import PortfolioModal from "./PortfolioModal";
+import "./Portfolio.scss";
 
 class Portfolio extends Component {
+	openPortfolioModal = project => {
+		this.props.openModal(project);
+	};
 	render() {
-		if (this.props.data) {
-			var projects = this.props.data.projects.map(function(projects) {
-				var projectImage = "images/portfolio/" + projects.image;
-				return (
-					<div
-						key={projects.title}
-						className="columns portfolio-item"
-					>
-						<div className="item-wrap">
-							<a href={projects.url} title={projects.title}>
-								<img alt={projects.title} src={projectImage} />
-								<div className="overlay">
-									<div className="portfolio-item-meta">
-										<h5>{projects.title}</h5>
-										<p>{projects.category}</p>
-									</div>
-								</div>
-								<div className="link-icon">
-									<i className="fa fa-link" />
-								</div>
-							</a>
-						</div>
-					</div>
-				);
-			});
-		}
-		// if (this.props.data) {
-		// 	var projects = this.props.data.projects.map(function(projects) {
-		// 		return (
-		// 			<div
-		// 				key={projects.title}
-		// 				className="columns portfolio-item"
-		// 			>
-		// 			</div>
-		// 		);
-		// 	});
-		// }
-
+		const { portfolios, portfolioModal } = this.props;
 		return (
 			<section id="portfolio">
+				{portfolioModal.isModalOpen && <PortfolioModal/>}
 				<div className="row">
 					<div className="twelve columns collapsed">
 						<h1>Check Out Some of My Works.</h1>
-
 						<div
 							id="portfolio-wrapper"
 							className="bgrid-quarters s-bgrid-thirds cf"
 						>
-							{projects}
+							{portfolios && portfolios.map((project) => {
+								return (
+									<Project
+										key={project.id}
+										project={project}
+										openModal={() => {this.openPortfolioModal(project)}}
+									/>
+								);
+							})}
 						</div>
 					</div>
 				</div>
@@ -59,4 +38,20 @@ class Portfolio extends Component {
 	}
 }
 
-export default Portfolio;
+const mapStateToProps = state => {
+	return {
+		portfolioModal: state.portfolioModal
+	};
+};
+
+const mapDispatchToProps = dispatch => {
+	return {
+		openModal: project => {
+			dispatch(openPortfolioModal(project));
+		}
+	};
+};
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Portfolio);

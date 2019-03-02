@@ -1,8 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { firestoreConnect } from "react-redux-firebase";
-import { compose } from "redux";
 
 class About extends Component {
 	downloadResume = uri => {
@@ -89,14 +86,4 @@ class About extends Component {
 	}
 }
 
-const mapStateToProps = state => {
-	return {
-		myInfo: state.firestore.ordered.personalInfo
-			? state.firestore.ordered.personalInfo[0]
-			: null
-	};
-};
-export default compose(
-	connect(mapStateToProps),
-	firestoreConnect([{ collection: "personalInfo" }])
-)(About);
+export default About;

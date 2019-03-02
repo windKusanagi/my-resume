@@ -1,8 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { firestoreConnect } from "react-redux-firebase";
-import { compose } from "redux";
 import "./Header.scss";
 
 class Header extends Component {
@@ -103,18 +100,4 @@ class Header extends Component {
 	}
 }
 
-const mapStateToProps = state => {
-	return {
-		myInfo: state.firestore.ordered.personalInfo
-			? state.firestore.ordered.personalInfo[0]
-			: null,
-		socialMedia: state.firestore.ordered.socialMediaLink
-	};
-};
-export default compose(
-	connect(mapStateToProps),
-	firestoreConnect([
-		{ collection: "personalInfo" },
-		{ collection: "socialMediaLink" }
-	])
-)(Header);
+export default Header;
