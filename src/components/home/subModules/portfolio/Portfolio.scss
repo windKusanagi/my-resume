@@ -3,8 +3,9 @@
 }
 
 .carousel {
-	width: 90%;
+	max-width: 90%;
 	margin: auto;
+	padding-left: 5%; 
 }
 
 .portfolioModal {
@@ -15,12 +16,28 @@
 		font-size: 40px !important;
 		cursor: pointer;
 	}
+
+	&__projectSummary {
+		h2 {
+			font-size: 25px !important;
+			width: 90%;
+			margin: auto;
+		}
+	}
+
+	&__projectDescription {
+		font-size: 15px !important;
+		width: 90% !important;
+		margin: auto !important;
+		margin-bottom: 20px !important;
+	}
 }
 
 @media only screen and (max-width: 767px) {
 	.carousel {
 		width: 100%;
 		margin: auto;
+		padding-left:0; 
 	}
 	.portfolioModal {
 		&__closeIcon {
@@ -29,6 +46,21 @@
 			top: 5px;
 			font-size: 25px !important;
 			cursor: pointer;
+		}
+
+		&__projectSummary {
+			h2 {
+				font-size: 20px !important;
+				width: 100%;
+				margin: auto;
+			}
+		}
+
+		&__projectDescription {
+			font-size: 12px !important;
+			width: 100% !important;
+			margin: auto !important;
+			margin-bottom: 20px !important;
 		}
 	}
 }

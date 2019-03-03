@@ -8,41 +8,17 @@ import About from "./subModules/about/About";
 import Resume from "./subModules/resume/Resume";
 import Testimonials from "./subModules/comments/Testimonials";
 import Portfolio from "./subModules/portfolio/Portfolio";
-import $ from "jquery";
 import LoadingScreen from "../widgets/loadingScreen/LoadingScreen";
 
 class Home extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			foo: "bar",
-			resumeData: {}
 		};
 		// ReactGA.initialize('UA-110570651-1');
 		// ReactGA.pageview(window.location.pathname);
 	}
-
-	getResumeData() {
-		$.ajax({
-			url: "/resumeData.json",
-			dataType: "json",
-			cache: false,
-			success: function(data) {
-				this.setState({ resumeData: data });
-			}.bind(this),
-			error: function(xhr, status, err) {
-				console.log(err);
-				alert(err);
-			}
-		});
-	}
-
-	componentDidMount = () => {
-		this.getResumeData();
-	};
-
 	render() {
-		const { portfolio } = this.state.resumeData;
 		const {
 			myInfo,
 			socialMedia,
@@ -67,7 +43,7 @@ class Home extends Component {
 				<Header myInfo={myInfo} socialMedia={socialMedia} />
 				<About myInfo={myInfo} />
 				<Resume works={works} educations={educations} skills={skills} />
-				<Portfolio data={portfolio} portfolios={portfolios} />
+				<Portfolio portfolios={portfolios} />
 				<Testimonials references={references} />
 				<Footer socialMedia={socialMedia} />
 			</div>

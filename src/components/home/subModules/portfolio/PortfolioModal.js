@@ -32,12 +32,23 @@ class PortfolioModal extends React.Component {
 					aria-labelledby="alert-dialog-slide-title"
 					aria-describedby="alert-dialog-slide-description"
 				>
-					<DialogTitle>
-						{"Use Google's location service?"}
+					<DialogTitle className="portfolioModal__projectSummary">
+
+							{portfolioModal.project &&
+								portfolioModal.project.summary}
+
 					</DialogTitle>
 					<DialogContent>
-						<Icon className="portfolioModal__closeIcon" onClick={this.handleClose}>clear</Icon>
-						<DialogContentText id="alert-dialog-slide-description">
+						<Icon
+							className="portfolioModal__closeIcon"
+							onClick={this.handleClose}
+						>
+							clear
+						</Icon>
+						<DialogContentText className="portfolioModal__projectDescription">
+
+								{portfolioModal.project &&
+									portfolioModal.project.description}
 
 						</DialogContentText>
 						{portfolioModal.project && (
@@ -45,14 +56,17 @@ class PortfolioModal extends React.Component {
 								className="carousel"
 								showArrows={true}
 								autoPlay={true}
+								infiniteLoop={true}
 							>
-								{portfolioModal.project.imagesLink.map((link, index) => {
-									return (
-										<div key={index}>
-											<img src={link} alt="missing" />
-										</div>
-									);
-								})}
+								{portfolioModal.project.imagesLink.map(
+									(link, index) => {
+										return (
+											<div key={index}>
+												<img src={link} alt="missing" />
+											</div>
+										);
+									}
+								)}
 							</Carousel>
 						)}
 					</DialogContent>
