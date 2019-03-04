@@ -9,49 +9,101 @@ import { closePortfolioModal } from "../../../../store/actions/portfolioActions"
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Icon from "@material-ui/core/Icon";
+import ReactPlayer from "react-player";
+import Stepper from "./Stepper";
 
 function Transition(props) {
 	return <Slide direction="up" {...props} />;
 }
 
 class PortfolioModal extends React.Component {
+	state = {
+		isMobile: false,
+		windowWidth: null,
+		videoIdx: 0
+	};
+
+	updateDimensions = () => {
+		let windowWidth = Math.max(
+			document.documentElement.clientWidth,
+			window.innerWidth || 0
+		);
+		if (windowWidth < 767) {
+			this.setState({
+				isMobile: true,
+				windowWidth
+			});
+		} else {
+			this.setState({
+				isMobile: false,
+				windowWidth
+			});
+		}
+	};
+
+	componentWillMount = () => {
+		this.updateDimensions();
+	};
+
+	componentDidMount = () => {
+		window.addEventListener("resize", this.updateDimensions);
+	};
+
+	onNextClicked = () => {
+		let curIdx = this.state.videoIdx;
+		this.setState({ videoIdx: curIdx + 1 });
+	};
+
+	onPrevClicked = () => {
+		let curIdx = this.state.videoIdx;
+		this.setState({ videoIdx: curIdx - 1 });
+	};
+
+	componentWillUnmount = () => {
+		window.removeEventListener("resize", this.updateDimensions);
+	};
+
 	handleClose = () => {
 		this.props.closeModal();
 	};
 
+	_onReady = event => {
+		// access to player in all event handlers via event.target
+		event.target.pauseVideo();
+	};
+
 	render() {
 		const { portfolioModal } = this.props;
+		let opts = {
+			width: this.state.windowWidth * 0.7,
+			height: this.state.windowWidth * 0.7 / 1.77
+		}
 		return (
-			<div>
-				<Dialog
-					open={portfolioModal.isModalOpen}
-					TransitionComponent={Transition}
-					keepMounted
-					maxWidth={"lg"}
-					onClose={this.handleClose}
-					aria-labelledby="alert-dialog-slide-title"
-					aria-describedby="alert-dialog-slide-description"
-				>
-					<DialogTitle className="portfolioModal__projectSummary">
-
-							{portfolioModal.project &&
-								portfolioModal.project.summary}
-
-					</DialogTitle>
-					<DialogContent>
-						<Icon
-							className="portfolioModal__closeIcon"
-							onClick={this.handleClose}
-						>
-							clear
-						</Icon>
-						<DialogContentText className="portfolioModal__projectDescription">
-
-								{portfolioModal.project &&
-									portfolioModal.project.description}
-
-						</DialogContentText>
-						{portfolioModal.project && (
+			<Dialog
+				open={portfolioModal.isModalOpen}
+				TransitionComponent={Transition}
+				keepMounted
+				maxWidth={"lg"}
+				onClose={this.handleClose}
+				aria-labelledby="alert-dialog-slide-title"
+				aria-describedby="alert-dialog-slide-description"
+			>
+				<DialogTitle className="portfolioModal__projectSummary">
+					{portfolioModal.project && portfolioModal.project.summary}
+				</DialogTitle>
+				<DialogContent>
+					<Icon
+						className="portfolioModal__closeIcon"
+						onClick={this.handleClose}
+					>
+						clear
+					</Icon>
+					<DialogContentText className="portfolioModal__projectDescription">
+						{portfolioModal.project &&
+							portfolioModal.project.description}
+					</DialogContentText>
+					{portfolioModal.project &&
+						portfolioModal.project.demoType === 1 && (
 							<Carousel
 								className="carousel"
 								showArrows={true}
@@ -69,9 +121,31 @@ class PortfolioModal extends React.Component {
 								)}
 							</Carousel>
 						)}
-					</DialogContent>
-				</Dialog>
-			</div>
+					{portfolioModal.project &&
+						portfolioModal.project.demoType === 2 && (
+							<div className="portfolioModal__video">
+								<ReactPlayer
+									url={
+										portfolioModal.project.videoLinks[
+											this.state.videoIdx
+										]
+									}
+									controls={true}
+									width={`${opts.width}px`}
+									height={`${opts.height}px`}
+									style={{ alignSelf: "center", maxWidth: "1000px", maxHeight: "565px" }}
+								/>
+								<Stepper
+									videoNum={
+										portfolioModal.project.videoLinks.length
+									}
+									onNextClicked={this.onNextClicked}
+									onPrevClicked={this.onPrevClicked}
+								/>
+							</div>
+						)}
+				</DialogContent>
+			</Dialog>
 		);
 	}
 }
