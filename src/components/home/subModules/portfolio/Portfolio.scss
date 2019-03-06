@@ -2,14 +2,14 @@
 	background-color: rgba(0, 0, 0, 0.7) !important;
 }
 
-.carousel {
-	max-width: 80%;
-	margin-left: 10%;
+.portfolio-carousel {
+	max-width: 65%;
+	margin-left: 17.5%;
 }
 
-.carousel_narrow {
-	max-width: 70%;
-	margin-left: 15%;
+.portfolio-carousel_narrow {
+	max-width: 55%;
+	margin-left: 22.5%;
 }
 
 .portfolioModal {
@@ -45,11 +45,11 @@
 }
 
 @media only screen and (max-width: 767px) {
-	.carousel {
+	.portfolio-carousel {
 		max-width: 100%;
 		margin: 0 auto;
 	}
-	.carousel_narrow {
+	.portfolio-carousel_narrow {
 		max-width: 100%;
 		margin: 0 auto;
 	}

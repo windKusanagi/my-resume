@@ -133,7 +133,7 @@ class PortfolioModal extends React.Component {
 						portfolioModal.project.demoType === 1 && (
 							<Carousel
 								className={
-									!isMobile ? "carousel" : "carousel_narrow"
+									!isMobile ? "portfolio-carousel" : "portfolio-carousel_narrow"
 								}
 								showArrows={true}
 								autoPlay={true}
