@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+
 import React from "react";
 import { connect } from "react-redux";
 import Dialog from "@material-ui/core/Dialog";
@@ -67,6 +69,10 @@ class PortfolioModal extends React.Component {
 		this.props.closeModal();
 	};
 
+	onLinkClicked = link => {
+		window.open(link, "_black");
+	};
+
 	_onReady = event => {
 		// access to player in all event handlers via event.target
 		event.target.pauseVideo();
@@ -76,8 +82,16 @@ class PortfolioModal extends React.Component {
 		const { portfolioModal } = this.props;
 		let opts = {
 			width: this.state.windowWidth * 0.7,
-			height: this.state.windowWidth * 0.7 / 1.77
+			height: (this.state.windowWidth * 0.7) / 1.77
+		};
+		let isMobile = false;
+		if (
+			portfolioModal.project &&
+			portfolioModal.project.isMobile === true
+		) {
+			isMobile = true;
 		}
+
 		return (
 			<Dialog
 				open={portfolioModal.isModalOpen}
@@ -101,11 +115,26 @@ class PortfolioModal extends React.Component {
 					<DialogContentText className="portfolioModal__projectDescription">
 						{portfolioModal.project &&
 							portfolioModal.project.description}
+						{portfolioModal.project &&
+							portfolioModal.project.description &&
+							portfolioModal.project.link !== "" && (
+								<a
+									style={{ cursor: "pointer" }}
+									onClick={event => {
+										event.preventDefault();
+										this.onLinkClicked(
+											portfolioModal.project.link
+										);
+									}}
+								>{` Link: ${portfolioModal.project.link}`}</a>
+							)}
 					</DialogContentText>
 					{portfolioModal.project &&
 						portfolioModal.project.demoType === 1 && (
 							<Carousel
-								className="carousel"
+								className={
+									!isMobile ? "carousel" : "carousel_narrow"
+								}
 								showArrows={true}
 								autoPlay={true}
 								infiniteLoop={true}
@@ -133,7 +162,11 @@ class PortfolioModal extends React.Component {
 									controls={true}
 									width={`${opts.width}px`}
 									height={`${opts.height}px`}
-									style={{ alignSelf: "center", maxWidth: "1000px", maxHeight: "565px" }}
+									style={{
+										alignSelf: "center",
+										maxWidth: "1000px",
+										maxHeight: "565px"
+									}}
 								/>
 								<Stepper
 									videoNum={
